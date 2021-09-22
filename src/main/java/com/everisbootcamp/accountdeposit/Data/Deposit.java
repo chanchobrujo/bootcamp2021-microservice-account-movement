@@ -1,10 +1,10 @@
 package com.everisbootcamp.accountdeposit.Data;
 
-import java.time.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.*;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import lombok.*;
 
 @Getter
 @Setter
@@ -12,9 +12,10 @@ import lombok.*;
 @ToString
 @Document(collection = "deposit")
 public class Deposit {
+
     @Id
     private String idretire;
-    
+
     private String numberaccount;
     private Integer amount;
 
