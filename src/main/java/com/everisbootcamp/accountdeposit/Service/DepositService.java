@@ -2,8 +2,10 @@ package com.everisbootcamp.accountdeposit.Service;
 
 import java.util.Map;
 
+import com.everisbootcamp.accountdeposit.Constants.Constants;
 import com.everisbootcamp.accountdeposit.Data.Deposit;
 import com.everisbootcamp.accountdeposit.Interface.DepositRepository;
+import com.everisbootcamp.accountdeposit.Model.DepositModel;
 import com.everisbootcamp.accountdeposit.Model.ResponseModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,13 @@ public class DepositService {
         );
 
         return Mono.just(ResponseEntity.internalServerError().body(response.getResponse()));
+    }
+
+    public Mono<ResponseModel> save(String numberaccount, DepositModel model) {
+        HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
+        String message = Constants.Messages.INVALID_DATA; 
+
+        return Mono.just(new ResponseModel(message, status));
     }
     
     public Flux<Deposit> findAll() {
