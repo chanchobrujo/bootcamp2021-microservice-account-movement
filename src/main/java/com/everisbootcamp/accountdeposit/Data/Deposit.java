@@ -14,15 +14,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Deposit {
 
     @Id
-    private String idretire;
+    private String iddeposit;
 
     private String numberaccount;
-    private Integer amount;
+    private Double amount;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime datecreated = LocalDateTime.now(ZoneId.of("America/Lima"));
 
-    public Deposit(String numberaccount, Integer amount) {
+    public Deposit(String numberaccount, Double amount) {
         this.numberaccount = numberaccount;
         this.amount = amount;
     }

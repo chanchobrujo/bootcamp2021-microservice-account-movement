@@ -19,6 +19,9 @@ public enum Constants {
 
         private static final String HTTP_CONSTANT = "http://";
         private static final String GATEWAY = IPR.concat(":").concat(PORT);
-        public static final String ACCOUNT_PATH = HTTP_CONSTANT.concat(GATEWAY).concat(MS_PATH).concat("/accounts");
+        public static final String ACCOUNT_PATH = HTTP_CONSTANT
+            .concat(GATEWAY)
+            .concat(MS_PATH)
+            .concat("/accounts");
     }
 }
