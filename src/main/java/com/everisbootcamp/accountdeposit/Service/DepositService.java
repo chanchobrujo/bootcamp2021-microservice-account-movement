@@ -10,6 +10,7 @@ import com.everisbootcamp.accountdeposit.Model.RulesModel;
 import com.everisbootcamp.accountdeposit.Model.updateBalanceModel;
 import com.everisbootcamp.accountdeposit.Web.Consumer;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,11 +60,19 @@ public class DepositService {
         BindingResult bindinResult
     ) {
         ResponseModel response = new ResponseModel(
-            bindinResult.getAllErrors().stream().findFirst().get().getDefaultMessage().toString(),
+            bindinResult
+                .getAllErrors()
+                .stream()
+                .findFirst()
+                .get()
+                .getDefaultMessage()
+                .toString(),
             HttpStatus.NOT_ACCEPTABLE
         );
 
-        return Mono.just(ResponseEntity.internalServerError().body(response.getResponse()));
+        return Mono.just(
+            ResponseEntity.internalServerError().body(response.getResponse())
+        );
     }
 
     public Mono<ResponseModel> save(String numberaccount, DepositModel model) {
@@ -71,21 +80,27 @@ public class DepositService {
         String message = Constants.Messages.INVALID_DATA;
 
         if (findAccountByNumberAccount(numberaccount).getBody() != null) {
-            RulesModel rules = findAccountByNumberAccount(numberaccount).getBody().getRules();
+            RulesModel rules = findAccountByNumberAccount(numberaccount)
+                .getBody()
+                .getRules();
 
             if (
                 rules.isMaximumLimitMonthlyMovements() &&
                 rules.getMaximumLimitMonthlyMovementsQuantity() <=
                 getMonthlyMovementsQuantity(numberaccount)
             ) return Mono.just(
-                new ResponseModel(Constants.Messages.MOVEMENT_DENIED, HttpStatus.NOT_ACCEPTABLE)
+                new ResponseModel(
+                    Constants.Messages.MOVEMENT_DENIED,
+                    HttpStatus.NOT_ACCEPTABLE
+                )
             );
 
             status = HttpStatus.CREATED;
             message = Constants.Messages.CORRECT_DATA;
 
             Double newamount =
-                findAccountByNumberAccount(numberaccount).getBody().getAmount() + model.getAmount();
+                findAccountByNumberAccount(numberaccount).getBody().getAmount() +
+                model.getAmount();
             updateBalance(numberaccount, newamount);
 
             repository.save(new Deposit(numberaccount, model.getAmount())).subscribe();
@@ -96,6 +111,16 @@ public class DepositService {
 
     public Flux<Deposit> findAll() {
         return repository.findAll();
+    }
+
+    public Flux<Deposit> findByNumberAccount(String numberaccount) {
+        return Flux.fromIterable(
+            repository
+                .findAll()
+                .toStream()
+                .filter(r -> r.getNumberaccount().equals(numberaccount))
+                .collect(Collectors.toList())
+        );
     }
 
     public Mono<Deposit> findById(String id) {
