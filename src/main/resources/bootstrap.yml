@@ -1,11 +1,11 @@
 spring:
-  application:
-    name: microservices-deposit
-  profiles:
-    active: dev
-  cloud:
-    config:
-      uri: http://localhost:9510
+    application:
+        name: microservices-deposit
+    profiles:
+        active: dev
+    cloud:
+        config:
+            uri: http://localhost:9510
 
 server:
-  port: 9594
+    port: 9594
