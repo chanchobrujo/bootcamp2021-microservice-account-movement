@@ -19,8 +19,7 @@ public enum TypeAccount {
     public static Optional<TypeAccount> FindByName(String name) {
         for (TypeAccount type : values()) {
             Boolean verify = Utils.equalsOrContains(type.getTypeaccount(), name);
-            if (verify)
-                return Optional.of(type);
+            if (verify) return Optional.of(type);
         }
         return Optional.empty();
     }

@@ -1,7 +1,7 @@
 package com.everisbootcamp.accountdeposit.Controller;
 
 import com.everisbootcamp.accountdeposit.Data.Deposit;
-import com.everisbootcamp.accountdeposit.Model.DepositModel;
+import com.everisbootcamp.accountdeposit.Model.Request.DepositModel;
 import com.everisbootcamp.accountdeposit.Service.DepositService;
 import java.util.Map;
 import javax.validation.Valid;
@@ -33,9 +33,7 @@ public class DepositController {
     public Mono<ResponseEntity<Flux<Deposit>>> findByNumberAccount(
         @PathVariable("numberaccount") String numberaccount
     ) {
-        return Mono.just(
-            ResponseEntity.ok().body(service.findByNumberAccount(numberaccount))
-        );
+        return Mono.just(ResponseEntity.ok().body(service.findByNumberAccount(numberaccount)));
     }
 
     @PostMapping("/save/{numberaccount}")
@@ -47,11 +45,11 @@ public class DepositController {
         if (bindinResult.hasErrors()) return service.BindingResultErrors(bindinResult);
         return service
             .save(numberaccount, model)
-            .map(response -> {
-                return ResponseEntity
-                    .status(response.getStatus())
-                    .body(response.getResponse());
-            })
+            .map(
+                response -> {
+                    return ResponseEntity.status(response.getStatus()).body(response.getResponse());
+                }
+            )
             .defaultIfEmpty(ResponseEntity.internalServerError().build());
     }
 }

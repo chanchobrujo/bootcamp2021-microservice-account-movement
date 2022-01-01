@@ -15,8 +15,7 @@ public enum TypeCustomer {
     public static Optional<TypeCustomer> FindByName(String name) {
         for (TypeCustomer type : values()) {
             Boolean verify = type.getName().toUpperCase().equals(name.toUpperCase());
-            if (verify)
-                return Optional.of(type);
+            if (verify) return Optional.of(type);
         }
         return Optional.empty();
     }

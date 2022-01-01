@@ -2,7 +2,6 @@ package com.everisbootcamp.accountdeposit.Model.Response;
 
 import com.everisbootcamp.accountdeposit.Constants.Enums.Messages.MessagesError;
 import com.everisbootcamp.accountdeposit.Constants.Enums.Messages.MessagesSuccess;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
