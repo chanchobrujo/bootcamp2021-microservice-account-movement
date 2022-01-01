@@ -1,4 +1,4 @@
-package com.everisbootcamp.accountdeposit.Model;
+package com.everisbootcamp.accountdeposit.Model.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class updateBalanceModel {
+public class RequestUpdateBalance {
 
     private String numberaccount;
     private Double balance;
