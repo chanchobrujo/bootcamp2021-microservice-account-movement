@@ -1,4 +1,4 @@
-package com.everisbootcamp.accountdeposit.Model;
+package com.everisbootcamp.accountdeposit.Model.Request;
 
 import javax.validation.constraints.Min;
 import lombok.AllArgsConstructor;

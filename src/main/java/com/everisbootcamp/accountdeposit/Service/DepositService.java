@@ -1,14 +1,12 @@
 package com.everisbootcamp.accountdeposit.Service;
 
-import com.everisbootcamp.accountdeposit.Constants.Constants;
 import com.everisbootcamp.accountdeposit.Data.Deposit;
 import com.everisbootcamp.accountdeposit.Interface.DepositRepository;
 import com.everisbootcamp.accountdeposit.Model.AccountModel;
-import com.everisbootcamp.accountdeposit.Model.DepositModel;
+import com.everisbootcamp.accountdeposit.Model.Request.DepositModel;
 import com.everisbootcamp.accountdeposit.Model.ResponseModel;
 import com.everisbootcamp.accountdeposit.Model.RulesModel;
 import com.everisbootcamp.accountdeposit.Model.updateBalanceModel;
-import com.everisbootcamp.accountdeposit.Web.Consumer;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,19 +58,11 @@ public class DepositService {
         BindingResult bindinResult
     ) {
         ResponseModel response = new ResponseModel(
-            bindinResult
-                .getAllErrors()
-                .stream()
-                .findFirst()
-                .get()
-                .getDefaultMessage()
-                .toString(),
+            bindinResult.getAllErrors().stream().findFirst().get().getDefaultMessage().toString(),
             HttpStatus.NOT_ACCEPTABLE
         );
 
-        return Mono.just(
-            ResponseEntity.internalServerError().body(response.getResponse())
-        );
+        return Mono.just(ResponseEntity.internalServerError().body(response.getResponse()));
     }
 
     public Mono<ResponseModel> save(String numberaccount, DepositModel model) {
@@ -80,27 +70,21 @@ public class DepositService {
         String message = Constants.Messages.INVALID_DATA;
 
         if (findAccountByNumberAccount(numberaccount).getBody() != null) {
-            RulesModel rules = findAccountByNumberAccount(numberaccount)
-                .getBody()
-                .getRules();
+            RulesModel rules = findAccountByNumberAccount(numberaccount).getBody().getRules();
 
             if (
                 rules.isMaximumLimitMonthlyMovements() &&
                 rules.getMaximumLimitMonthlyMovementsQuantity() <=
                 getMonthlyMovementsQuantity(numberaccount)
             ) return Mono.just(
-                new ResponseModel(
-                    Constants.Messages.MOVEMENT_DENIED,
-                    HttpStatus.NOT_ACCEPTABLE
-                )
+                new ResponseModel(Constants.Messages.MOVEMENT_DENIED, HttpStatus.NOT_ACCEPTABLE)
             );
 
             status = HttpStatus.CREATED;
             message = Constants.Messages.CORRECT_DATA;
 
             Double newamount =
-                findAccountByNumberAccount(numberaccount).getBody().getAmount() +
-                model.getAmount();
+                findAccountByNumberAccount(numberaccount).getBody().getAmount() + model.getAmount();
             updateBalance(numberaccount, newamount);
 
             repository.save(new Deposit(numberaccount, model.getAmount())).subscribe();

@@ -1,28 +1,37 @@
-package com.everisbootcamp.accountdeposit.Model;
+package com.everisbootcamp.accountdeposit.Model.Response;
 
+import com.everisbootcamp.accountdeposit.Constants.Enums.Messages.MessagesError;
+import com.everisbootcamp.accountdeposit.Constants.Enums.Messages.MessagesSuccess;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseModel {
+public class Response {
 
     private String message;
     private HttpStatus status;
     private LocalDateTime timestamp = LocalDateTime.now(ZoneId.of("America/Lima"));
 
-    public ResponseModel(String message, HttpStatus status) {
+    public Response(String message, HttpStatus status) {
         this.message = message;
         this.status = status;
+    }
+
+    public Response(MessagesSuccess message) {
+        this.message = message.getMessages();
+        this.status = HttpStatus.valueOf(message.getCod());
+    }
+
+    public Response(MessagesError message) {
+        this.message = message.getMessages();
+        this.status = HttpStatus.valueOf(message.getCod());
     }
 
     public Map<String, Object> getResponse() {
@@ -30,6 +39,7 @@ public class ResponseModel {
 
         response.put("message", this.getMessage());
         response.put("timestamp", this.getTimestamp());
+
         return response;
     }
 }
