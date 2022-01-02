@@ -4,7 +4,9 @@ import com.everisbootcamp.accountdeposit.Common.Utils;
 import com.everisbootcamp.accountdeposit.Constants.Enums.RuleName;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RuleService {
 
     @Autowired
@@ -30,18 +32,21 @@ public class RuleService {
 
     public Boolean verifyRules(String number) {
         Map<String, Object> rules =
-            this.accountService.findAccountByNumberAccount(number).getRules();
+            this.accountService.findAccountByNumberAccount(number).getBody().getRules();
         this.defineRulesByAccount(rules);
 
         String maxLimitMovMonthlyName = RuleName.MAXLIMITMOVMONTHLY.getName();
         String maxLimitMovMonthlyNumberName = RuleName.MAXLIMITMOVMONTHLYNUMBER.getName();
 
         Boolean maxLimitMovMonthly = Utils.ObjectToBoolean(rules.get(maxLimitMovMonthlyName));
-        Integer max = Integer.parseInt(rules.get(maxLimitMovMonthlyNumberName).toString());
+        if (maxLimitMovMonthly) {
+            Integer max = Integer.parseInt(rules.get(maxLimitMovMonthlyNumberName).toString());
+            Boolean value =
+                maxLimitMovMonthly &&
+                max == this.filterMovementService.getMonthlyMovementsQuantity(number);
+            return value;
+        }
 
-        return (
-            maxLimitMovMonthly &&
-            max == this.filterMovementService.getMonthlyMovementsQuantity(number)
-        );
+        return maxLimitMovMonthly;
     }
 }

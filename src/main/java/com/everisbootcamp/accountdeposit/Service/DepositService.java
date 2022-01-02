@@ -20,8 +20,8 @@ public class DepositService {
     @Autowired
     private DepositRepository repository;
 
-    @Autowired
-    private RuleService ruleService;
+    // @Autowired
+    // private RuleService ruleService;
 
     @Autowired
     private AccountService accountService;
@@ -34,17 +34,16 @@ public class DepositService {
         );
 
         if (verifyExistAccount) {
-            if (!this.ruleService.verifyRules(numberaccount)) {
-                response = new Response(MessagesError.MOVEMENT_DENIED);
-            } else {
-                Double balance =
-                    this.accountService.AmountAccount(numberaccount) + model.getAmount();
-                RequestUpdateBalance modelBal = new RequestUpdateBalance(numberaccount, balance);
-                System.err.println(this.accountService.updateBalanceAccount(modelBal).getBody());
+            // if (!this.ruleService.verifyRules(numberaccount)) {
+            // response = new Response(MessagesError.MOVEMENT_DENIED);
+            // } else {
+            Double balance = this.accountService.AmountAccount(numberaccount) + model.getAmount();
+            RequestUpdateBalance modelBal = new RequestUpdateBalance(numberaccount, balance);
+            System.err.println(this.accountService.updateBalanceAccount(modelBal));
 
-                // repository.save(new Deposit(numberaccount, model.getAmount())).subscribe();
-                response = new Response(MessagesSuccess.SUCCESS_REGISTER);
-            }
+            repository.save(new Deposit(numberaccount, model.getAmount())).subscribe();
+            response = new Response(MessagesSuccess.SUCCESS_REGISTER);
+            // }
         }
 
         return Mono.just(response);

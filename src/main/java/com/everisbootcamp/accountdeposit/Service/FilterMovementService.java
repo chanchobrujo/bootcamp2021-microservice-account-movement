@@ -3,7 +3,9 @@ package com.everisbootcamp.accountdeposit.Service;
 import com.everisbootcamp.accountdeposit.Interface.DepositRepository;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FilterMovementService {
 
     @Autowired
