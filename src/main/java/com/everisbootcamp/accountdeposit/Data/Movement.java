@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @ToString
+@Builder
+@AllArgsConstructor
 @Document(collection = "movement")
 public class Movement {
 
