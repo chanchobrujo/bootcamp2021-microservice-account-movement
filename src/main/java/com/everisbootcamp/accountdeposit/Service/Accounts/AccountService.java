@@ -1,4 +1,4 @@
-package com.everisbootcamp.accountdeposit.Service;
+package com.everisbootcamp.accountdeposit.Service.Accounts;
 
 import com.everisbootcamp.accountdeposit.Connection.ConnectionMicroservicesAccount;
 import com.everisbootcamp.accountdeposit.Model.Request.RequestUpdateBalance;
