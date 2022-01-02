@@ -7,7 +7,7 @@ import com.everisbootcamp.accountdeposit.Interface.MovementRepository;
 import com.everisbootcamp.accountdeposit.Model.Request.RequestMovement;
 import com.everisbootcamp.accountdeposit.Model.Request.RequestUpdateBalance;
 import com.everisbootcamp.accountdeposit.Model.Response.Response;
-import com.everisbootcamp.accountdeposit.Service.AccountService;
+import com.everisbootcamp.accountdeposit.Service.Accounts.AccountService;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
