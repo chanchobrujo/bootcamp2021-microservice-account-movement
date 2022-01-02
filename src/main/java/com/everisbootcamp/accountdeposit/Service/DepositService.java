@@ -40,7 +40,7 @@ public class DepositService {
                 Double balance =
                     this.accountService.AmountAccount(numberaccount) + model.getAmount();
                 RequestUpdateBalance modelBal = new RequestUpdateBalance(numberaccount, balance);
-                this.accountService.updateBalanceAccount(modelBal);
+                System.err.println(this.accountService.updateBalanceAccount(modelBal).getBody());
 
                 // repository.save(new Deposit(numberaccount, model.getAmount())).subscribe();
                 response = new Response(MessagesSuccess.SUCCESS_REGISTER);
