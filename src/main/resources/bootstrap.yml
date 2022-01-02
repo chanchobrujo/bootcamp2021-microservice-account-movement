@@ -1,6 +1,6 @@
 spring:
   application:
-    name: microservices-deposit
+    name: microservices-movement
   profiles:
     active: dev
   cloud:
