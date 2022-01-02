@@ -5,15 +5,20 @@ import com.everisbootcamp.accountdeposit.Constants.Enums.Messages.MessagesError;
 import com.everisbootcamp.accountdeposit.Constants.Enums.Types.TypeMovement;
 import com.everisbootcamp.accountdeposit.Model.Request.RequestMovement;
 import com.everisbootcamp.accountdeposit.Model.Response.Response;
+import com.everisbootcamp.accountdeposit.Service.Accounts.AccountService;
 import com.everisbootcamp.accountdeposit.Service.Accounts.RuleService;
 import com.everisbootcamp.accountdeposit.Service.Movement.DepositService;
 import com.everisbootcamp.accountdeposit.Service.Movement.RetireService;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
 public class TypeMovementService {
+
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
     private DepositService depositService;
@@ -32,25 +37,37 @@ public class TypeMovementService {
         return this.ruleService.verifyRules(numberaccount);
     }
 
+    private Boolean verifyExistsAccount(String numberaccount) {
+        Boolean verifyExistAccount = Objects.nonNull(
+            this.accountService.findAccountByNumberAccount(numberaccount)
+        );
+        return verifyExistAccount;
+    }
+
     public Mono<Response> initMovement(String numberaccount, RequestMovement model) {
         Response response = new Response(MessagesError.NOTFOUND_DATA);
 
         String TYPEM = model.getTypemovement();
+        Boolean verifyExistsAccount = this.verifyExistsAccount(numberaccount);
 
-        if (this.verifyExistMovement(TYPEM)) {
-            if (this.verifyRules(numberaccount)) {
-                response = new Response(MessagesError.MOVEMENT_DENIED);
-            } else {
-                String DENAME = TypeMovement.DEPOSIT.getName();
-                String RENAME = TypeMovement.RETIRE.getName();
+        if (verifyExistsAccount) {
+            if (this.verifyExistMovement(TYPEM)) {
+                if (this.verifyRules(numberaccount)) {
+                    response = new Response(MessagesError.MOVEMENT_DENIED);
+                } else {
+                    String DENAME = TypeMovement.DEPOSIT.getName();
+                    String RENAME = TypeMovement.RETIRE.getName();
 
-                Boolean verifyDeposit = Utils.equalsOrContains(TYPEM, DENAME);
-                Boolean verifyRetire = Utils.equalsOrContains(TYPEM, RENAME);
+                    Boolean verifyDeposit = Utils.equalsOrContains(TYPEM, DENAME);
+                    Boolean verifyRetire = Utils.equalsOrContains(TYPEM, RENAME);
 
-                if (verifyDeposit) {
-                    return this.depositService.save(numberaccount, model);
-                } else if (verifyRetire) {
-                    return this.retireService.save(numberaccount, model);
+                    if (verifyDeposit) {
+                        model.setTypemovement(DENAME);
+                        return this.depositService.save(numberaccount, model);
+                    } else if (verifyRetire) {
+                        model.setTypemovement(RENAME);
+                        return this.retireService.save(numberaccount, model);
+                    }
                 }
             }
         }

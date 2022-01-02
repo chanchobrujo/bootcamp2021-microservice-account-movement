@@ -8,7 +8,8 @@ public enum MessagesError {
     REPETED_DATA(400, "Datos repetidos."),
     NOTFOUND_DATA(404, "Datos no encontrados."),
     MOVEMENT_DENIED(400, "Movimiento denegado."),
-    CLIENT_ACCOUNT_DENIED(400, "Usted ya no puede adquirir mas cuentas de este tipo.");
+    CLIENT_ACCOUNT_DENIED(400, "Usted ya no puede adquirir mas cuentas de este tipo."),
+    AMOUNT_INSUFFICIENT(400, "Monto insuficiente.");
 
     private Integer cod;
     private String messages;
