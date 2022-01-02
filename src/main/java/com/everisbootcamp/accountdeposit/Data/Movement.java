@@ -18,6 +18,7 @@ public class Movement {
     @Id
     private String iddeposit;
 
+    private String typemovement;
     private String numberaccount;
     private Double amount;
 

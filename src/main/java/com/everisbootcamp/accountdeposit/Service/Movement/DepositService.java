@@ -32,9 +32,17 @@ public class DepositService {
         if (verifyExistAccount) {
             Double balance = this.accountService.AmountAccount(numberaccount) + model.getAmount();
             RequestUpdateBalance modelBal = new RequestUpdateBalance(numberaccount, balance);
+
             System.err.println(this.accountService.updateBalanceAccount(modelBal));
 
-            repository.save(new Movement(numberaccount, model.getAmount())).subscribe();
+            Movement movement = Movement
+                .builder()
+                .typemovement(model.getTypemovement())
+                .numberaccount(numberaccount)
+                .amount(model.getAmount())
+                .build();
+
+            repository.save(movement).subscribe();
             response = new Response(MessagesSuccess.SUCCESS_REGISTER);
         }
 

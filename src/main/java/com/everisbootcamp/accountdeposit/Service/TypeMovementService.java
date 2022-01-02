@@ -48,8 +48,10 @@ public class TypeMovementService {
                 Boolean verifyRetire = Utils.equalsOrContains(TYPEM, RENAME);
 
                 if (verifyDeposit) {
+                    model.setTypemovement(DENAME);
                     return this.depositService.save(numberaccount, model);
                 } else if (verifyRetire) {
+                    model.setTypemovement(RENAME);
                     return this.retireService.save(numberaccount, model);
                 }
             }
