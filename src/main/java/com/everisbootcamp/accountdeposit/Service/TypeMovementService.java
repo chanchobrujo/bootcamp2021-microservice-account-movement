@@ -22,18 +22,22 @@ public class TypeMovementService {
 
     public Mono<Response> initMovement(String numberaccount, RequestMovement model) {
         Response response = new Response(MessagesError.NOTFOUND_DATA);
-        String typeMovement = model.getTypemovement();
 
-        Boolean verifyDeposit = Utils.equalsOrContains(
-            typeMovement,
-            TypeMovement.DEPOSIT.getName()
-        );
-        Boolean verifyRetire = Utils.equalsOrContains(typeMovement, TypeMovement.RETIRE.getName());
+        String TYPEM = model.getTypemovement();
+        Boolean verifyExistMovement = TypeMovement.FindByName(TYPEM).isPresent();
 
-        if (verifyDeposit) {
-            return this.depositService.save(numberaccount, model);
-        } else if (verifyRetire) {
-            return this.retireService.save(numberaccount, model);
+        if (verifyExistMovement) {
+            String DENAME = TypeMovement.DEPOSIT.getName();
+            String RENAME = TypeMovement.RETIRE.getName();
+
+            Boolean verifyDeposit = Utils.equalsOrContains(TYPEM, DENAME);
+            Boolean verifyRetire = Utils.equalsOrContains(TYPEM, RENAME);
+
+            if (verifyDeposit) {
+                return this.depositService.save(numberaccount, model);
+            } else if (verifyRetire) {
+                return this.retireService.save(numberaccount, model);
+            }
         }
 
         return Mono.just(response);
