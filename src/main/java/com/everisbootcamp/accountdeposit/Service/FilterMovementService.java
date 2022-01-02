@@ -1,6 +1,6 @@
 package com.everisbootcamp.accountdeposit.Service;
 
-import com.everisbootcamp.accountdeposit.Interface.DepositRepository;
+import com.everisbootcamp.accountdeposit.Interface.MovementRepository;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class FilterMovementService {
 
     @Autowired
-    private DepositRepository repository;
+    private MovementRepository repository;
 
     public int getMonthlyMovementsQuantity(String numberaccount) {
         Date date = new Date();
