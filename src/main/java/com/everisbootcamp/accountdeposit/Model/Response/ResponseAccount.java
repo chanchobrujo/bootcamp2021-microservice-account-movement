@@ -17,6 +17,7 @@ public class ResponseAccount {
 
     private String NumberAccount;
     private String TypeAccount;
+    private String idcustomer;
     private Double Amount;
 
     private Map<String, Object> Rules;
