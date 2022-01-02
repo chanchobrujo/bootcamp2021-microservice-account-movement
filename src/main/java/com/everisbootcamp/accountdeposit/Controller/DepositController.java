@@ -1,6 +1,7 @@
 package com.everisbootcamp.accountdeposit.Controller;
 
 import com.everisbootcamp.accountdeposit.Data.Deposit;
+import com.everisbootcamp.accountdeposit.Error.ResponseBindingResultErrors;
 import com.everisbootcamp.accountdeposit.Model.Request.DepositModel;
 import com.everisbootcamp.accountdeposit.Service.DepositService;
 import java.util.Map;
@@ -24,6 +25,9 @@ public class DepositController {
     @Autowired
     private DepositService service;
 
+    @Autowired
+    private ResponseBindingResultErrors responseBindingResultErrors;
+
     @GetMapping("/")
     public Mono<ResponseEntity<Flux<Deposit>>> findByAll() {
         return Mono.just(ResponseEntity.ok().body(service.findAll()));
@@ -42,7 +46,9 @@ public class DepositController {
         @RequestBody @Valid DepositModel model,
         BindingResult bindinResult
     ) {
-        if (bindinResult.hasErrors()) return service.BindingResultErrors(bindinResult);
+        if (bindinResult.hasErrors()) return this.responseBindingResultErrors.BindingResultErrors(
+                bindinResult
+            );
         return service
             .save(numberaccount, model)
             .map(
