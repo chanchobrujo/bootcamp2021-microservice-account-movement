@@ -1,7 +1,6 @@
 package com.everisbootcamp.accountdeposit.Constants.Enums.Types;
 
 import java.util.Optional;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -16,10 +15,8 @@ public enum TypeMovement {
     public static Optional<TypeMovement> FindByName(String name) {
         for (TypeMovement type : values()) {
             Boolean verify = type.getName().toUpperCase().equals(name.toUpperCase());
-            if (verify)
-                return Optional.of(type);
+            if (verify) return Optional.of(type);
         }
         return Optional.empty();
     }
-
 }
