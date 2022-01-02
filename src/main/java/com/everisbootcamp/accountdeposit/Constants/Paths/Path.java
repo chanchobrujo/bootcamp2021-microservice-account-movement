@@ -29,5 +29,8 @@ public enum Path {
         public static final String CUSTOMERS_PATH = SERVICE_CALL(MS_PATH)
             .concat("customer")
             .concat(SLASH);
+        public static final String ACCOUNT_PATH = SERVICE_CALL(MS_PATH)
+            .concat("accounts")
+            .concat(SLASH);
     }
 }

@@ -10,8 +10,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @ToString
-@Document(collection = "deposit")
-public class Deposit {
+@Builder
+@AllArgsConstructor
+@Document(collection = "movement")
+public class Movement {
 
     @Id
     private String iddeposit;
@@ -22,7 +24,7 @@ public class Deposit {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime datecreated = LocalDateTime.now(ZoneId.of("America/Lima"));
 
-    public Deposit(String numberaccount, Double amount) {
+    public Movement(String numberaccount, Double amount) {
         this.numberaccount = numberaccount;
         this.amount = amount;
     }

@@ -16,6 +16,16 @@ public class Utils {
     }
 
     /**
+     * Convertir una cadena de texto(SI/NO) a booleano.
+     *
+     * @param String
+     * @return Boolean
+     */
+    public static Boolean StringToBoolean(String value) {
+        return equalsOrContains(value, YesOrNot.YES.getValue());
+    }
+
+    /**
      * Convertir un booleano a una cadena de texto(SI/NO).
      *
      * @param Boolean
