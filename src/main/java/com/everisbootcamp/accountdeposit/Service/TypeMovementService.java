@@ -61,10 +61,19 @@ public class TypeMovementService {
                     Boolean verifyDeposit = Utils.equalsOrContains(TYPEM, DENAME);
                     Boolean verifyRetire = Utils.equalsOrContains(TYPEM, RENAME);
 
+                    String DNI = model.getDni();
+                    String NAME = model.getNombre();
+                    String LNAME = model.getApellido();
+
                     if (verifyDeposit) {
-                        model.setTypemovement(DENAME);
-                        return this.depositService.save(numberaccount, model);
-                    } else if (verifyRetire) {
+                        if (Utils.StringEmpty(DNI, NAME, LNAME)) {
+                            return Mono.just(new Response(MessagesError.MOVEMENT_DENIED));
+                        } else {
+                            model.setTypemovement(DENAME);
+                            return this.depositService.save(numberaccount, model);
+                        }
+                    }
+                    if (verifyRetire) {
                         model.setTypemovement(RENAME);
                         return this.retireService.save(numberaccount, model);
                     }
