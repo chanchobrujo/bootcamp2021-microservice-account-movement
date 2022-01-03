@@ -18,6 +18,12 @@ public class RequestMovement {
     @NotBlank(message = "El campo tipo de movimiento, no debe estar vacio.")
     private String typemovement;
 
-    @Min(10)
+    @Min(1)
     private Double amount;
+
+    private String dni = "";
+    private String nombre = "";
+    private String apellido = "";
+
+    private String razon = "";
 }
