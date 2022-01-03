@@ -1,15 +1,11 @@
-package com.everisbootcamp.accountdeposit.Service.Movement;
+package com.everisbootcamp.accountdeposit.Service.Typemovement;
 
 import com.everisbootcamp.accountdeposit.Constants.Enums.Messages.MessagesError;
-import com.everisbootcamp.accountdeposit.Constants.Enums.Messages.MessagesSuccess;
-import com.everisbootcamp.accountdeposit.Data.Movement;
-import com.everisbootcamp.accountdeposit.Interface.MovementRepository;
 import com.everisbootcamp.accountdeposit.Model.Request.RequestMovement;
 import com.everisbootcamp.accountdeposit.Model.Request.RequestUpdateBalance;
 import com.everisbootcamp.accountdeposit.Model.Response.Response;
 import com.everisbootcamp.accountdeposit.Service.Accounts.AccountService;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import com.everisbootcamp.accountdeposit.Service.MovementSave;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -18,7 +14,7 @@ import reactor.core.publisher.Mono;
 public class RetireService {
 
     @Autowired
-    private MovementRepository repository;
+    private MovementSave movementSave;
 
     @Autowired
     private AccountService accountService;
@@ -31,19 +27,9 @@ public class RetireService {
         if (verifyAmount) {
             balance = balance - model.getAmount();
             RequestUpdateBalance modelBal = new RequestUpdateBalance(numberaccount, balance);
-
             System.err.println(this.accountService.updateBalanceAccount(modelBal));
 
-            Movement movement = Movement
-                .builder()
-                .typemovement(model.getTypemovement())
-                .numberaccount(numberaccount)
-                .amount(model.getAmount())
-                .datecreated(LocalDateTime.now(ZoneId.of("America/Lima")))
-                .build();
-
-            repository.save(movement).subscribe();
-            response = new Response(MessagesSuccess.SUCCESS_REGISTER);
+            response = movementSave.save(model.getTypemovement(), numberaccount, model.getAmount());
         }
 
         return Mono.just(response);
