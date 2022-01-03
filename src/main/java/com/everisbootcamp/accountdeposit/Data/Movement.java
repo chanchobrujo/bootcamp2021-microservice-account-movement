@@ -23,7 +23,7 @@ public class Movement {
     private Double amount;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime datecreated = LocalDateTime.now(ZoneId.of("America/Lima"));
+    private LocalDateTime datecreated;
 
     public Movement(String numberaccount, Double amount) {
         this.numberaccount = numberaccount;

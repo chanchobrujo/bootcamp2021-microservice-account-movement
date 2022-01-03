@@ -8,6 +8,8 @@ import com.everisbootcamp.accountdeposit.Model.Request.RequestMovement;
 import com.everisbootcamp.accountdeposit.Model.Request.RequestUpdateBalance;
 import com.everisbootcamp.accountdeposit.Model.Response.Response;
 import com.everisbootcamp.accountdeposit.Service.Accounts.AccountService;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -37,6 +39,7 @@ public class RetireService {
                 .typemovement(model.getTypemovement())
                 .numberaccount(numberaccount)
                 .amount(model.getAmount())
+                .datecreated(LocalDateTime.now(ZoneId.of("America/Lima")))
                 .build();
 
             repository.save(movement).subscribe();
