@@ -2,9 +2,13 @@ package com.everisbootcamp.accountdeposit.Common;
 
 import com.everisbootcamp.accountdeposit.Constants.Constan;
 import com.everisbootcamp.accountdeposit.Constants.Enums.YesOrNot;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Objects;
 
 public class Utils {
@@ -91,5 +95,45 @@ public class Utils {
         day = day.concat(month).concat(year).concat(hour).concat(minute).concat(second);
 
         return day;
+    }
+
+    /**
+     * Separa la cadena de la fecha generada, y la acumula en una coleción set, ej:
+     * [04:18:13, 03-01-2022]
+     *
+     * @param String
+     * @return List<String>
+     */
+    public static List<String> separeDateString(String date) {
+        String[] dateTime = date.split(Constan.DOUBLE_SLASH_REVERSE.concat(Constan.PLUS));
+        return Arrays.asList(dateTime[0], dateTime[1]);
+    }
+
+    /**
+     * Convierte una cadena a calendar
+     *
+     * @param String
+     * @return Calendar
+     * @throws ParseException
+     */
+    public static Calendar StringToCalendar(String stringDate) throws ParseException {
+        SimpleDateFormat formato = new SimpleDateFormat(Constan.FORMATTER_DATE);
+        Date date = formato.parse(stringDate);
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+
+        return calendar;
+    }
+
+    /**
+     * Obtener el mes
+     *
+     * @param String
+     * @return Integer
+     * @throws ParseException
+     */
+    public static Integer getMonth(String stringDate) throws ParseException {
+        return StringToCalendar(stringDate).get(Calendar.MONTH);
     }
 }
