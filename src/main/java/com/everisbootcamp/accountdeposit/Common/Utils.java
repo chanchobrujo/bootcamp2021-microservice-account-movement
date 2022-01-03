@@ -29,8 +29,11 @@ public class Utils {
      * @param String
      * @return Boolean
      */
-    public static Boolean StringEmpty(String value) {
-        return value.length() == 0 || Objects.isNull(value) || value.isEmpty();
+    public static Boolean StringEmpty(String... value) {
+        for (String string : value) {
+            return string.length() == 0 || Objects.isNull(string) || string.isEmpty();
+        }
+        return false;
     }
 
     /**
