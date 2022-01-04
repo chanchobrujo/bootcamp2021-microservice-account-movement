@@ -10,7 +10,6 @@ public enum Path {
         private static final String IPR = "localhost";
         private static final String PORT = "9500";
 
-        private static final String SERVER_PATH = Constan.SLASH.concat("server");
         private static final String MS_PATH = Constan.SLASH.concat("microservices");
 
         private static final String HTTP_CONSTANT =
@@ -21,12 +20,6 @@ public enum Path {
             return HTTP_CONSTANT.concat(GATEWAY).concat(value).concat(Constan.SLASH);
         }
 
-        public static final String LOGIC_PATH = SERVICE_CALL(SERVER_PATH)
-            .concat("logic")
-            .concat(Constan.SLASH);
-        public static final String CUSTOMERS_PATH = SERVICE_CALL(MS_PATH)
-            .concat("customer")
-            .concat(Constan.SLASH);
         public static final String ACCOUNT_PATH = SERVICE_CALL(MS_PATH)
             .concat("accounts")
             .concat(Constan.SLASH);

@@ -1,5 +1,6 @@
 package com.everisbootcamp.accountdeposit.Model.Request;
 
+import com.everisbootcamp.accountdeposit.Constants.Constan;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,9 @@ public class RequestMovement {
     @Min(1)
     private Double amount;
 
-    private String dni = "";
-    private String nombre = "";
-    private String apellido = "";
+    private String dni = Constan.EMPTY;
+    private String nombre = Constan.EMPTY;
+    private String apellido = Constan.EMPTY;
 
-    private String razon = "";
+    private String razon = Constan.EMPTY;
 }
