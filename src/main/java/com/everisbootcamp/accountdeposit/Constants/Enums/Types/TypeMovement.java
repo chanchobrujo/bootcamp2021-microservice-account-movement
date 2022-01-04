@@ -7,10 +7,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum TypeMovement {
-    DEPOSIT("D"),
-    RETIRE("R");
+    DEPOSIT("D", "Depósito"),
+    RETIRE("R", "Retiro");
 
     private String name;
+    private String secondName;
 
     public static Optional<TypeMovement> FindByName(String name) {
         for (TypeMovement type : values()) {
