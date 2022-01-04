@@ -1,6 +1,7 @@
 package com.everisbootcamp.accountdeposit.Service.Typemovement;
 
 import com.everisbootcamp.accountdeposit.Common.Utils;
+import com.everisbootcamp.accountdeposit.Constants.Constan;
 import com.everisbootcamp.accountdeposit.Constants.Enums.Messages.MessagesError;
 import com.everisbootcamp.accountdeposit.Constants.Enums.Messages.MessagesSuccess;
 import com.everisbootcamp.accountdeposit.Data.Movement;
@@ -9,7 +10,7 @@ import com.everisbootcamp.accountdeposit.Model.Request.RequestMovement;
 import com.everisbootcamp.accountdeposit.Model.Request.RequestUpdateBalance;
 import com.everisbootcamp.accountdeposit.Model.Response.Response;
 import com.everisbootcamp.accountdeposit.Service.Accounts.AccountService;
-import java.util.HashMap;
+import com.everisbootcamp.accountdeposit.Service.DetailService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class RetireService {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private DetailService detailService;
+
     public Mono<Response> save(String numberaccount, RequestMovement model) {
         Response response = new Response(MessagesError.AMOUNT_INSUFFICIENT);
 
@@ -34,11 +38,8 @@ public class RetireService {
             RequestUpdateBalance modelBal = new RequestUpdateBalance(numberaccount, balance);
             System.err.println(this.accountService.updateBalanceAccount(modelBal));
 
-            Map<String, String> detail = new HashMap<>();
-
-            if (!Utils.StringEmpty(model.getRazon())) {
-                detail.put("Razón de la operación", model.getRazon());
-            }
+            Map<String, String> detail =
+                this.detailService.defineDetails(Constan.EMPTY, model.getRazon());
 
             Movement movement = Movement
                 .builder()

@@ -10,7 +10,7 @@ import com.everisbootcamp.accountdeposit.Model.Request.RequestMovement;
 import com.everisbootcamp.accountdeposit.Model.Request.RequestUpdateBalance;
 import com.everisbootcamp.accountdeposit.Model.Response.Response;
 import com.everisbootcamp.accountdeposit.Service.Accounts.AccountService;
-import java.util.HashMap;
+import com.everisbootcamp.accountdeposit.Service.DetailService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,9 @@ public class DepositService {
 
     @Autowired
     private MovementRepository movementRepository;
+
+    @Autowired
+    private DetailService detailService;
 
     public Mono<Response> save(String numberaccount, RequestMovement model) {
         Response response = new Response(MessagesError.NOTFOUND_DATA);
@@ -39,12 +42,7 @@ public class DepositService {
             .concat(Constan.PLUS)
             .concat(model.getApellido());
 
-        Map<String, String> detail = new HashMap<>();
-        detail.put("Cliente que realizó la operación", client);
-
-        if (!Utils.StringEmpty(model.getRazon())) {
-            detail.put("Razón de la operación", model.getRazon());
-        }
+        Map<String, String> detail = this.detailService.defineDetails(client, model.getRazon());
 
         Movement movement = Movement
             .builder()
