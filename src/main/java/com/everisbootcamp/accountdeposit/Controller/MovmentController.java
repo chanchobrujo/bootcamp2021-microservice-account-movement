@@ -37,15 +37,16 @@ public class MovmentController {
         return Mono.just(ResponseEntity.ok().body(this.responseMovementsService.findAll()));
     }
 
-    /**
-     * @GetMapping("/{numberaccount}")
-     * public Mono<ResponseEntity<Flux<Deposit>>> findByNumberAccount(
-     * @PathVariable("numberaccount") String numberaccount
-     * ) {
-     * return
-     * Mono.just(ResponseEntity.ok().body(service.findByNumberAccount(numberaccount)));
-     * }
-     */
+    @GetMapping("/findByNumber")
+    public Mono<ResponseEntity<Flux<ResponseMovement>>> findByNumberAccount(
+        @RequestParam String numberaccount
+    ) {
+        return Mono.just(
+            ResponseEntity
+                .ok()
+                .body(this.responseMovementsService.findAllByNumberAccount(numberaccount))
+        );
+    }
 
     @PostMapping("/save")
     public Mono<ResponseEntity<Map<String, Object>>> save(

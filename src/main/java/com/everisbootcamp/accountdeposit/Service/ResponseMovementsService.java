@@ -1,5 +1,6 @@
 package com.everisbootcamp.accountdeposit.Service;
 
+import com.everisbootcamp.accountdeposit.Constants.Enums.Types.TypeMovement;
 import com.everisbootcamp.accountdeposit.Data.Movement;
 import com.everisbootcamp.accountdeposit.Interface.MovementRepository;
 import com.everisbootcamp.accountdeposit.Model.Response.ResponseMovement;
@@ -22,9 +23,10 @@ public class ResponseMovementsService {
         List<ResponseMovement> CollectionResponse = new ArrayList<ResponseMovement>();
 
         for (Movement movement : findAll) {
+            String type = TypeMovement.FindByName(movement.getTypemovement()).get().getSecondName();
             ResponseMovement responseMovement = ResponseMovement
                 .builder()
-                .type(movement.getTypemovement())
+                .type(type)
                 .amount(movement.getAmount())
                 .numberaccount(movement.getNumberaccount())
                 .datecreated(movement.getDatecreated())
@@ -35,5 +37,14 @@ public class ResponseMovementsService {
         }
 
         return Flux.fromIterable(CollectionResponse);
+    }
+
+    public Flux<ResponseMovement> findAllByNumberAccount(String number) {
+        return Flux.fromIterable(
+            this.findAll()
+                .toStream()
+                .filter(m -> m.getNumberaccount().equals(number))
+                .collect(Collectors.toList())
+        );
     }
 }
