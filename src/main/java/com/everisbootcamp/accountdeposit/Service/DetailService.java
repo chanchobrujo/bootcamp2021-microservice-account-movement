@@ -4,7 +4,9 @@ import com.everisbootcamp.accountdeposit.Common.Utils;
 import com.everisbootcamp.accountdeposit.Constants.Enums.Details;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DetailService {
 
     public Map<String, String> defineDetails(String client, String razon) {
